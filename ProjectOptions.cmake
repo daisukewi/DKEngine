@@ -7,7 +7,7 @@ include(CheckCXXCompilerFlag)
 include(CheckCXXSourceCompiles)
 
 
-macro(myproject_supports_sanitizers)
+macro(DKEngine_supports_sanitizers)
   if((CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES ".*GNU.*") AND NOT WIN32)
 
     message(STATUS "Sanity checking UndefinedBehaviorSanitizer, it should be supported on this platform")
@@ -54,183 +54,183 @@ macro(myproject_supports_sanitizers)
   endif()
 endmacro()
 
-macro(myproject_setup_options)
-  option(myproject_ENABLE_HARDENING "Enable hardening" ON)
-  option(myproject_ENABLE_COVERAGE "Enable coverage reporting" OFF)
+macro(DKEngine_setup_options)
+  option(DKEngine_ENABLE_HARDENING "Enable hardening" ON)
+  option(DKEngine_ENABLE_COVERAGE "Enable coverage reporting" OFF)
   cmake_dependent_option(
-    myproject_ENABLE_GLOBAL_HARDENING
+    DKEngine_ENABLE_GLOBAL_HARDENING
     "Attempt to push hardening options to built dependencies"
     ON
-    myproject_ENABLE_HARDENING
+    DKEngine_ENABLE_HARDENING
     OFF)
 
-  myproject_supports_sanitizers()
+  DKEngine_supports_sanitizers()
 
-  if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" OFF)
-    option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" OFF)
-    option(myproject_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
-    option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-    option(myproject_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
-    option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
-    option(myproject_ENABLE_CPPCHECK "Enable cpp-check analysis" OFF)
-    option(myproject_ENABLE_PCH "Enable precompiled headers" OFF)
-    option(myproject_ENABLE_CACHE "Enable ccache" OFF)
+  if(NOT PROJECT_IS_TOP_LEVEL OR DKEngine_PACKAGING_MAINTAINER_MODE)
+    option(DKEngine_ENABLE_IPO "Enable IPO/LTO" OFF)
+    option(DKEngine_WARNINGS_AS_ERRORS "Treat Warnings As Errors" OFF)
+    option(DKEngine_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
+    option(DKEngine_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
+    option(DKEngine_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
+    option(DKEngine_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" OFF)
+    option(DKEngine_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+    option(DKEngine_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+    option(DKEngine_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
+    option(DKEngine_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
+    option(DKEngine_ENABLE_CPPCHECK "Enable cpp-check analysis" OFF)
+    option(DKEngine_ENABLE_PCH "Enable precompiled headers" OFF)
+    option(DKEngine_ENABLE_CACHE "Enable ccache" OFF)
   else()
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" ON)
-    option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
-    option(myproject_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
-    option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" ${SUPPORTS_ASAN})
-    option(myproject_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" ${SUPPORTS_UBSAN})
-    option(myproject_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-    option(myproject_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
-    option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
-    option(myproject_ENABLE_CPPCHECK "Enable cpp-check analysis" ON)
-    option(myproject_ENABLE_PCH "Enable precompiled headers" OFF)
-    option(myproject_ENABLE_CACHE "Enable ccache" ON)
+    option(DKEngine_ENABLE_IPO "Enable IPO/LTO" ON)
+    option(DKEngine_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
+    option(DKEngine_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
+    option(DKEngine_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" ${SUPPORTS_ASAN})
+    option(DKEngine_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
+    option(DKEngine_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" ${SUPPORTS_UBSAN})
+    option(DKEngine_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+    option(DKEngine_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+    option(DKEngine_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
+    option(DKEngine_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
+    option(DKEngine_ENABLE_CPPCHECK "Enable cpp-check analysis" ON)
+    option(DKEngine_ENABLE_PCH "Enable precompiled headers" OFF)
+    option(DKEngine_ENABLE_CACHE "Enable ccache" ON)
   endif()
 
   if(NOT PROJECT_IS_TOP_LEVEL)
     mark_as_advanced(
-      myproject_ENABLE_IPO
-      myproject_WARNINGS_AS_ERRORS
-      myproject_ENABLE_USER_LINKER
-      myproject_ENABLE_SANITIZER_ADDRESS
-      myproject_ENABLE_SANITIZER_LEAK
-      myproject_ENABLE_SANITIZER_UNDEFINED
-      myproject_ENABLE_SANITIZER_THREAD
-      myproject_ENABLE_SANITIZER_MEMORY
-      myproject_ENABLE_UNITY_BUILD
-      myproject_ENABLE_CLANG_TIDY
-      myproject_ENABLE_CPPCHECK
-      myproject_ENABLE_COVERAGE
-      myproject_ENABLE_PCH
-      myproject_ENABLE_CACHE)
+      DKEngine_ENABLE_IPO
+      DKEngine_WARNINGS_AS_ERRORS
+      DKEngine_ENABLE_USER_LINKER
+      DKEngine_ENABLE_SANITIZER_ADDRESS
+      DKEngine_ENABLE_SANITIZER_LEAK
+      DKEngine_ENABLE_SANITIZER_UNDEFINED
+      DKEngine_ENABLE_SANITIZER_THREAD
+      DKEngine_ENABLE_SANITIZER_MEMORY
+      DKEngine_ENABLE_UNITY_BUILD
+      DKEngine_ENABLE_CLANG_TIDY
+      DKEngine_ENABLE_CPPCHECK
+      DKEngine_ENABLE_COVERAGE
+      DKEngine_ENABLE_PCH
+      DKEngine_ENABLE_CACHE)
   endif()
 
-  myproject_check_libfuzzer_support(LIBFUZZER_SUPPORTED)
-  if(LIBFUZZER_SUPPORTED AND (myproject_ENABLE_SANITIZER_ADDRESS OR myproject_ENABLE_SANITIZER_THREAD OR myproject_ENABLE_SANITIZER_UNDEFINED))
+  DKEngine_check_libfuzzer_support(LIBFUZZER_SUPPORTED)
+  if(LIBFUZZER_SUPPORTED AND (DKEngine_ENABLE_SANITIZER_ADDRESS OR DKEngine_ENABLE_SANITIZER_THREAD OR DKEngine_ENABLE_SANITIZER_UNDEFINED))
     set(DEFAULT_FUZZER ON)
   else()
     set(DEFAULT_FUZZER OFF)
   endif()
 
-  option(myproject_BUILD_FUZZ_TESTS "Enable fuzz testing executable" ${DEFAULT_FUZZER})
+  option(DKEngine_BUILD_FUZZ_TESTS "Enable fuzz testing executable" ${DEFAULT_FUZZER})
 
 endmacro()
 
-macro(myproject_global_options)
-  if(myproject_ENABLE_IPO)
+macro(DKEngine_global_options)
+  if(DKEngine_ENABLE_IPO)
     include(cmake/InterproceduralOptimization.cmake)
-    myproject_enable_ipo()
+    DKEngine_enable_ipo()
   endif()
 
-  myproject_supports_sanitizers()
+  DKEngine_supports_sanitizers()
 
-  if(myproject_ENABLE_HARDENING AND myproject_ENABLE_GLOBAL_HARDENING)
+  if(DKEngine_ENABLE_HARDENING AND DKEngine_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
     if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
+       OR DKEngine_ENABLE_SANITIZER_UNDEFINED
+       OR DKEngine_ENABLE_SANITIZER_ADDRESS
+       OR DKEngine_ENABLE_SANITIZER_THREAD
+       OR DKEngine_ENABLE_SANITIZER_LEAK)
       set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
     else()
       set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
     endif()
-    message("${myproject_ENABLE_HARDENING} ${ENABLE_UBSAN_MINIMAL_RUNTIME} ${myproject_ENABLE_SANITIZER_UNDEFINED}")
-    myproject_enable_hardening(myproject_options ON ${ENABLE_UBSAN_MINIMAL_RUNTIME})
+    message("${DKEngine_ENABLE_HARDENING} ${ENABLE_UBSAN_MINIMAL_RUNTIME} ${DKEngine_ENABLE_SANITIZER_UNDEFINED}")
+    DKEngine_enable_hardening(DKEngine_options ON ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 endmacro()
 
-macro(myproject_local_options)
+macro(DKEngine_local_options)
   if(PROJECT_IS_TOP_LEVEL)
     include(cmake/StandardProjectSettings.cmake)
   endif()
 
-  add_library(myproject_warnings INTERFACE)
-  add_library(myproject_options INTERFACE)
+  add_library(DKEngine_warnings INTERFACE)
+  add_library(DKEngine_options INTERFACE)
 
   include(cmake/CompilerWarnings.cmake)
-  myproject_set_project_warnings(
-    myproject_warnings
-    ${myproject_WARNINGS_AS_ERRORS}
+  DKEngine_set_project_warnings(
+    DKEngine_warnings
+    ${DKEngine_WARNINGS_AS_ERRORS}
     ""
     ""
     ""
     "")
 
-  if(myproject_ENABLE_USER_LINKER)
+  if(DKEngine_ENABLE_USER_LINKER)
     include(cmake/Linker.cmake)
-    myproject_configure_linker(myproject_options)
+    DKEngine_configure_linker(DKEngine_options)
   endif()
 
   include(cmake/Sanitizers.cmake)
-  myproject_enable_sanitizers(
-    myproject_options
-    ${myproject_ENABLE_SANITIZER_ADDRESS}
-    ${myproject_ENABLE_SANITIZER_LEAK}
-    ${myproject_ENABLE_SANITIZER_UNDEFINED}
-    ${myproject_ENABLE_SANITIZER_THREAD}
-    ${myproject_ENABLE_SANITIZER_MEMORY})
+  DKEngine_enable_sanitizers(
+    DKEngine_options
+    ${DKEngine_ENABLE_SANITIZER_ADDRESS}
+    ${DKEngine_ENABLE_SANITIZER_LEAK}
+    ${DKEngine_ENABLE_SANITIZER_UNDEFINED}
+    ${DKEngine_ENABLE_SANITIZER_THREAD}
+    ${DKEngine_ENABLE_SANITIZER_MEMORY})
 
-  set_target_properties(myproject_options PROPERTIES UNITY_BUILD ${myproject_ENABLE_UNITY_BUILD})
+  set_target_properties(DKEngine_options PROPERTIES UNITY_BUILD ${DKEngine_ENABLE_UNITY_BUILD})
 
-  if(myproject_ENABLE_PCH)
+  if(DKEngine_ENABLE_PCH)
     target_precompile_headers(
-      myproject_options
+      DKEngine_options
       INTERFACE
       <vector>
       <string>
       <utility>)
   endif()
 
-  if(myproject_ENABLE_CACHE)
+  if(DKEngine_ENABLE_CACHE)
     include(cmake/Cache.cmake)
-    myproject_enable_cache()
+    DKEngine_enable_cache()
   endif()
 
   include(cmake/StaticAnalyzers.cmake)
-  if(myproject_ENABLE_CLANG_TIDY)
-    myproject_enable_clang_tidy(myproject_options ${myproject_WARNINGS_AS_ERRORS})
+  if(DKEngine_ENABLE_CLANG_TIDY)
+    DKEngine_enable_clang_tidy(DKEngine_options ${DKEngine_WARNINGS_AS_ERRORS})
   endif()
 
-  if(myproject_ENABLE_CPPCHECK)
-    myproject_enable_cppcheck(${myproject_WARNINGS_AS_ERRORS} "" # override cppcheck options
+  if(DKEngine_ENABLE_CPPCHECK)
+    DKEngine_enable_cppcheck(${DKEngine_WARNINGS_AS_ERRORS} "" # override cppcheck options
     )
   endif()
 
-  if(myproject_ENABLE_COVERAGE)
+  if(DKEngine_ENABLE_COVERAGE)
     include(cmake/Tests.cmake)
-    myproject_enable_coverage(myproject_options)
+    DKEngine_enable_coverage(DKEngine_options)
   endif()
 
-  if(myproject_WARNINGS_AS_ERRORS)
+  if(DKEngine_WARNINGS_AS_ERRORS)
     check_cxx_compiler_flag("-Wl,--fatal-warnings" LINKER_FATAL_WARNINGS)
     if(LINKER_FATAL_WARNINGS)
       # This is not working consistently, so disabling for now
-      # target_link_options(myproject_options INTERFACE -Wl,--fatal-warnings)
+      # target_link_options(DKEngine_options INTERFACE -Wl,--fatal-warnings)
     endif()
   endif()
 
-  if(myproject_ENABLE_HARDENING AND NOT myproject_ENABLE_GLOBAL_HARDENING)
+  if(DKEngine_ENABLE_HARDENING AND NOT DKEngine_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
     if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
+       OR DKEngine_ENABLE_SANITIZER_UNDEFINED
+       OR DKEngine_ENABLE_SANITIZER_ADDRESS
+       OR DKEngine_ENABLE_SANITIZER_THREAD
+       OR DKEngine_ENABLE_SANITIZER_LEAK)
       set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
     else()
       set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
     endif()
-    myproject_enable_hardening(myproject_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
+    DKEngine_enable_hardening(DKEngine_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 
 endmacro()
